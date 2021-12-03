@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Eclipse
+src/main/resources/application.properties
+
+
 ### STS ###
 .apt_generated
 .classpath
@@ -31,3 +35,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

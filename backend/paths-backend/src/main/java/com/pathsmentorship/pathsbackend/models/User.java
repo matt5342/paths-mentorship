@@ -3,10 +3,23 @@ package com.pathsmentorship.pathsbackend.models;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="users",
@@ -14,6 +27,7 @@ import javax.validation.constraints.Size;
 				@UniqueConstraint(columnNames = "username"),
 				@UniqueConstraint(columnNames = "email"),
 		})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
 	@Id
@@ -47,13 +61,19 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "school_id")
+	@JsonIgnore
+	private School school;
+	
 	public User() {}
 
-	public User(String username, String email,
-			String password) {
+	public User(String username, String email, String password, String firstName, String lastName) {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
 	public Long getId() {
@@ -111,11 +131,14 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", firstName=" + firstName + ", lastName=" + lastName + ", roles=" + roles + "]";
+	public School getSchool() {
+		return school;
+	}
+
+	public void setSchool(School school) {
+		this.school = school;
 	}
 	
 	

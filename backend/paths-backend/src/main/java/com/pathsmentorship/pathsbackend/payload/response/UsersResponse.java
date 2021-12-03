@@ -1,23 +1,23 @@
 package com.pathsmentorship.pathsbackend.payload.response;
 
 import java.util.List;
+import java.util.Set;
 
 import com.pathsmentorship.pathsbackend.models.School;
 
-public class JwtResponse {
-	private String token;
-	private String type = "Bearer";
+public class UsersResponse {
+
 	private Long id;
 	private String username;
 	private String email;
 	private String firstName;
 	private String lastName;
 	private String school;
-	private List<String> roles;
+	private Set<String> roles;
 
-	public JwtResponse(String accessToken, Long id, String username, String email, 
-						String firstName, String lastName, String school, List<String> roles) {
-		this.token = accessToken;
+	public UsersResponse() {}
+	public UsersResponse(Long id, String username, String email, 
+						String firstName, String lastName, String school, Set<String> roles) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
@@ -25,22 +25,6 @@ public class JwtResponse {
 		this.lastName = lastName;
 		this.school = school;
 		this.roles = roles;
-	}
-
-	public String getAccessToken() {
-		return token;
-	}
-
-	public void setAccessToken(String accessToken) {
-		this.token = accessToken;
-	}
-
-	public String getTokenType() {
-		return type;
-	}
-
-	public void setTokenType(String tokenType) {
-		this.type = tokenType;
 	}
 
 	public Long getId() {
@@ -91,7 +75,10 @@ public class JwtResponse {
 		this.school = school;
 	}
 
-	public List<String> getRoles() {
+	public void setRoles(Set<String> roles) {
+		this.roles = roles;
+	}
+	public Set<String> getRoles() {
 		return roles;
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.pathsmentorship.pathsbackend.models.School;
 import com.pathsmentorship.pathsbackend.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,23 +22,27 @@ public class UserDetailsImpl implements UserDetails {
 
 	private String email;
 	
+	@JsonIgnore
+	private String password;
+	
 	private String firstName;
 	
 	private String lastName;
+	
+	private School school;
 
-	@JsonIgnore
-	private String password;
 
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public UserDetailsImpl(Long id, String username, String email, String password, String firstName, String lastName,
-			Collection<? extends GrantedAuthority> authorities) {
+			School school, Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
+		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.password = password;
+		this.school = school;
 		this.authorities = authorities;
 	}
 
@@ -46,13 +51,20 @@ public class UserDetailsImpl implements UserDetails {
 				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
 				.collect(Collectors.toList());
 
+//		System.out.println("UserDetailsImpl build username: " + user.getUsername());
+//		System.out.println("UserDetailsImpl build user pw: " + user.getPassword());
+//		System.out.println("UserDetailsImpl build user firstName: " + user.getFirstName());
+//		System.out.println("UserDetailsImpl build user school: " + user.getSchool());
+//		System.out.println("UserDetailsImpl build user lastName: " + user.getLastName());
+		
 		return new UserDetailsImpl(
 				user.getId(), 
 				user.getUsername(), 
 				user.getEmail(),
+				user.getPassword(), 
 				user.getFirstName(),
 				user.getLastName(),
-				user.getPassword(), 
+				user.getSchool(),
 				authorities);
 	}
 
@@ -71,6 +83,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public String getPassword() {
+//		System.out.println("In userDetailsImpl getPassword");
 		return password;
 	}
 
@@ -84,7 +97,12 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	public String getLastName() {
+//		System.out.println("In userDetailsImpl getLastName");
 		return lastName;
+	}
+	
+	public School getSchool() {
+		return school;
 	}
 
 	@Override
@@ -109,6 +127,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public boolean equals(Object o) {
+//		System.out.println("In UserDetailsImpl equals method");
 		if (this == o)
 			return true;
 		if (o == null || getClass() != o.getClass())
@@ -116,4 +135,6 @@ public class UserDetailsImpl implements UserDetails {
 		UserDetailsImpl user = (UserDetailsImpl) o;
 		return Objects.equals(id, user.id);
 	}
+
+
 }

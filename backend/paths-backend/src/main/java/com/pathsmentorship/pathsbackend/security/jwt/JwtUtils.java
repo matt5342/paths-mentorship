@@ -24,23 +24,32 @@ public class JwtUtils {
 
 	public String generateJwtToken(Authentication authentication) {
 
+//		System.out.println("In JwtUtils: generate token");
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
-//		System.out.println("userPrincipal(jwtUtils): " + userPrincipal);
+		
+//		System.out.println("userPrincipal: " + userPrincipal);
+//		System.out.println("userPrincipal.getusername: " + userPrincipal.getUsername());
+//		System.out.println("userPrincipal.getpassword: " + userPrincipal.getPassword());
 		
 		return Jwts.builder()
 				.setSubject((userPrincipal.getUsername()))
 				.setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+				.setExpiration(new Date((new Date()).getTime() + Long.valueOf(jwtExpirationMs)))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
 				.compact();
 	}
 
 	public String getUserNameFromJwtToken(String token) {
+//		System.out.println("In JwtUtils getUserNameFromJwtToken");
+//		System.out.println("token: " + token);
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}
 
 	public boolean validateJwtToken(String authToken) {
+		
+//		System.out.println("In validateJwtToken");
+		
 		try {
 			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
 			return true;

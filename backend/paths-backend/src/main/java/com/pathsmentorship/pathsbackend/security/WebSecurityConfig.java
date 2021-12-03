@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -35,22 +37,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthTokenFilter authenticationJwtTokenFilter() {
 		return new AuthTokenFilter();
 	}
+	
+	
 
 	@Override
 	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//        authenticationManagerBuilder.inMemoryAuthentication()
+//          .withUser("spring")
+//          .password("{noop}secret")
+//          .roles("USER");
+//		authenticationManagerBuilder.inMemoryAuthentication().withUser("user1").password("test123").roles("MENTOR");
+//		authenticationManagerBuilder.inMemoryAuthentication().withUser("user2").password("test123").roles("STUDENT");
+//		authenticationManagerBuilder.inMemoryAuthentication().withUser("user3").password("test123").roles("PARENT");
+//		authenticationManagerBuilder.inMemoryAuthentication().withUser("user4").password("test123").roles("ADMIN");
+//		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance());
 		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
-	@Bean
 	@Override
+	@Bean
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//		return new BCryptPasswordEncoder();
 	}
+	
+	
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -59,9 +76,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/api/auth/**").permitAll()
 			.antMatchers("/api/test/**").permitAll()
+			.antMatchers("/api/users/**").permitAll()
+			.antMatchers("/api/accessCodes/**").permitAll()
+			.antMatchers("/api/publications/**").permitAll()
 			.anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
+	
+	
 
 }

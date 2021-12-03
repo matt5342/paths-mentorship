@@ -1,0 +1,5 @@
+INSERT INTO `users` (`username`, `password`, `first_name`, `last_name`, `email`) VALUES ('patrick', '$2a$10$cTUErxQqYVyU2qmQGIktpup5chLEdhD2zpzNEyYqmxrHHJbSNDOG.', 'patrick', 'smith', 'patrick@gmail.com');
+INSERT INTO `users` (`username`, `password`, `first_name`, `last_name`, `email`) VALUES ('alex', '$2a$10$.tP2OH3dEG0zms7vek4ated5AiQ.EGkncii0OpCcGq4bckS9NOULu', 'alex', 'jones', 'alex@gmail.com');
+INSERT INTO `users` (`username`, `password`, `first_name`, `last_name`, `email`) VALUES ('john', '$2a$10$E2UPv7arXmp3q0LzVzCBNeb4B4AtbTAGjkefVDnSztOwE7Gix6kea', 'john', 'roberts', 'john@gmail.com');
+INSERT INTO `users` (`username`, `password`, `first_name`, `last_name`, `email`) VALUES ('namhm', '$2a$10$GQT8bfLMaLYwlyUysnGwDu6HMB5G.tin5MKT/uduv2Nez0.DmhnOq', 'namhm', 'chan', 'namhm@gmail.com');
+INSERT INTO `users` (`username`, `password`, `first_name`, `last_name`, `email`) VALUES ('admin', '$2a$10$IqTJTjn39IU5.7sSCDQxzu3xug6z/LPU6IF0azE/8CkHCwYEnwBX.', 'admin', 'admin', 'mfsdevtest@gmail.com');

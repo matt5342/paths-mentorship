@@ -4,9 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +22,10 @@ public class Role {
 	@Enumerated(EnumType.STRING)
 	@Column(length=20)
 	private ERole name;
+	
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "access_code_id")
+//	private AccessCode accessCode;
 	
 	public Role() {}
 
@@ -42,6 +48,15 @@ public class Role {
 	public void setName(ERole name) {
 		this.name = name;
 	}
+
+//	public AccessCode getAccessCode() {
+//		return accessCode;
+//	}
+//
+//	public void setAccessCode(AccessCode accessCode) {
+//		this.accessCode = accessCode;
+//	}
+	
 	
 	
 }
